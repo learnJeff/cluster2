@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PDI Cluster Diagram</title>
+  <script src="https://unpkg.com/cytoscape@3.23.0/dist/cytoscape.min.js"></script>
+  <style>
+    body { margin: 0; }
+    #cy {
+      width: 100%;
+      height: 100vh;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="cy"></div>
+  <script>
+    fetch('pdi_cluster_data.json')
+      .then(res => res.json())
+      .then(data => {
+        const cy = cytoscape({
+          container: document.getElementById('cy'),
+          elements: data.elements,
+          style: [
+            {
+              selector: 'node',
+              style: {
+                'background-color': 'data(style.background-color)',
+                'label': 'data(label)',
+                'color': '#000',
+                'text-outline-width': 0,
+                'border-width': 1,
+                'border-color': '#333'
+              }
+            },
+            {
+              selector: 'edge',
+              style: {
+                'width': 2,
+                'line-color': '#aaa',
+                'target-arrow-shape': 'triangle',
+                'target-arrow-color': '#aaa',
+                'curve-style': 'bezier'
+              }
+            }
+          ],
+          layout: {
+            name: 'cose',
+            padding: 30
+          }
+        });
+      });
+  </script>
+</body>
+</html>
